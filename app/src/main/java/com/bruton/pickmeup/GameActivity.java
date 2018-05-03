@@ -1,16 +1,26 @@
 package com.bruton.pickmeup;
 
 import android.app.Activity;
+import android.graphics.Point;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Display;
 
 public class GameActivity extends Activity {
     private GameView m_gameView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        m_gameView = new GameView(this);
+
+        Display display = getWindowManager().getDefaultDisplay();
+
+        Point size = new Point();
+        display.getSize(size);
+
+        m_gameView = new GameView(this,size.x,size.y);
         setContentView(m_gameView);
+
+
     }
 
     @Override
