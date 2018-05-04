@@ -11,18 +11,29 @@ import android.view.SurfaceView;
 
 public class GameView extends SurfaceView implements Runnable {
 
+    private boolean m_dBugging = true; // change to false before completion
     private volatile boolean m_playing;
     private Thread m_gameThread = null;
+
     private Player m_player;
     private Enemy m_enemy;
 
     private Paint m_paint;
     private Canvas m_canvas;
     private SurfaceHolder m_holder;
+    private Context m_context;
+    private long m_startTime;
+    private long m_deltaTime;
+    private long m_fps;
+
+//    private LevelManager m_lm;
+//    private Viewport m_vp;
+//    public InputController m_ic
 
     public GameView(Context context,int screenW,int screenH){
         super(context);
 
+        m_context = context;
         m_holder = getHolder();
         m_paint = new Paint();
 
@@ -33,9 +44,15 @@ public class GameView extends SurfaceView implements Runnable {
     @Override
     public void run(){
         while(m_playing){
+            m_startTime = System.currentTimeMillis();
             update();
             draw();
-            control();
+
+            //calc FPS
+            m_deltaTime = System.currentTimeMillis() - m_startTime;
+            if(m_deltaTime >= 1){
+                m_fps = 1000 / m_deltaTime;
+            }
         }
 
     }
@@ -57,9 +74,7 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     private void update(){
-        m_player.update();
-        m_enemy.update();
-
+        //TODO: add update
     }
 
     private void draw(){
@@ -68,16 +83,11 @@ public class GameView extends SurfaceView implements Runnable {
 
             m_canvas.drawColor(Color.argb(255,0,0,0));
 
-            m_canvas.drawBitmap(m_player.getSprite(), m_player.getX(),m_player.getY(),m_paint);
-            m_canvas.drawBitmap(m_enemy.getSprite(), m_enemy.getX(),m_enemy.getY(),m_paint);
+            //TODO: add draw
 
             m_holder.unlockCanvasAndPost(m_canvas);
         }
     }
-    private void control(){
-
-    }
-
 
     public void pause(){
         m_playing = false;
