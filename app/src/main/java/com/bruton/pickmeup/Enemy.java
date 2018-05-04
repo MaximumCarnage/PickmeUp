@@ -4,51 +4,50 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-public class Player {
+public class Enemy {
+    //TODO: clean up, add base class
 
     private Bitmap sprite;
     private int x,y;
     private int vx,vy;
-    private boolean jumping;
 
-    private final int JUMPSPEED = 120;
     private final int GRAVITY = -60;
 
     private int minY;
     private int maxY;
+
     private int minX;
     private int maxX;
 
+    private int speed = 1;
 
-    public Player(Context context, int screenW, int screenH){
-        x = 10;
-        y = 10;
-        vx = 0;
-        vy = 0;
-
-
+    public Enemy(Context context, int screenW,int screenH){
         sprite = BitmapFactory.decodeResource(context.getResources(), R.drawable.toastplayer);
-        jumping = false;
 
-        maxY = screenH - sprite.getHeight()-50;
-        minY = 0;
-
-        maxX = screenW - sprite.getWidth();
         minX = 0;
+        maxX = screenW;
+
+        minY = 0;
+        maxY = screenH - sprite.getHeight() - 70;
+
+        x = maxX;
+        y = maxY;
+
+        if(y >maxY) {
+            y = maxY;
+        }
+
     }
 
     public void update(){
-        if(jumping){
-            y -= JUMPSPEED;
-        }else{
-            y -= GRAVITY;
-        }
+        y -= GRAVITY;
 
-        if(y < minY) {
-            y = minY;
-        }
         if(y >maxY) {
             y = maxY;
+        }
+
+        if(x > minX - sprite.getWidth()){
+            x = x - speed;
         }
     }
 
@@ -61,14 +60,4 @@ public class Player {
     public Bitmap getSprite(){
         return sprite;
     }
-
-    public void setJumping(){
-        jumping = true;
-    }
-
-    public void stopJumping(){
-        jumping = false;
-    }
-
-
 }
