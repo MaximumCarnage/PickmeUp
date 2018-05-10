@@ -16,7 +16,7 @@ public class LevelManager {
     private String m_levelName;
     private boolean m_playing;
 
-    private float m_gravity;
+    public float m_gravity;
 
     LevelData m_levelData;
     ArrayList<GameObject> m_gameObjects;
@@ -86,6 +86,15 @@ public class LevelManager {
         }
 
         return index;
+    }
+
+    public void switchPlayingStatus(){
+        m_playing = !m_playing;
+        if(m_playing){
+            m_gravity = 12;
+        }else{
+            m_gravity = 0;
+        }
     }
 
 

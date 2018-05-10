@@ -18,6 +18,16 @@ public abstract class GameObject {
 
     private String m_spriteName;
 
+    private float m_vX;
+    private float m_vY;
+    private int m_facing;
+    private boolean m_canMove = false;
+
+    final int LEFT = -1;
+    final int Right = 1;
+
+
+
 
     public abstract void update(long fps, float gravity);
 
@@ -40,6 +50,16 @@ public abstract class GameObject {
                 (int)(m_height * pixelsPerMeter), false);
 
         return sprite;
+    }
+
+    public void move(long fps) {
+        if (m_vX != 0) {
+            m_worldLocation.x += m_vX / fps;
+        }
+
+        if (m_vY != 0) {
+            m_worldLocation.y += m_vY / fps;
+        }
     }
 
     public Vector2D getWorldLocation() {
@@ -96,6 +116,42 @@ public abstract class GameObject {
     public void setType(char type) {
         m_type = type;
     }
+
+
+    public int getFacing(){
+        return m_facing;
+    }
+
+    public void setfacing(int facing){
+        m_facing = facing;
+    }
+
+    public float getVX(){
+        return m_vX;
+    }
+    public void setvX(float vX){
+        if(m_canMove){
+            m_vX = vX;
+        }
+    }
+
+    public float getVY(){
+        return m_vY;
+    }
+    public void setvY(float vY){
+        if(m_canMove){
+            m_vY = vY;
+        }
+    }
+
+    public boolean canMove(){
+        return m_canMove;
+    }
+
+    public void canMove(boolean canMove){
+        m_canMove = canMove;
+    }
+
 
     //TODO: Animation frames
 
